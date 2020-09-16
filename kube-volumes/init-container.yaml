@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: init-test
+  labels:
+    app: init-test
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: init-test
+  template:
+    metadata:
+      labels:
+        app: init-test
+    spec:
+      containers:
+      - name: deb01
+        image: busybox
+        command: ['sh', '-c', 'echo The app is running! && sleep 1600']
+      initContainers:
+      - name: init-service
+        image: busybox
+        command: ['sh', '-c', 'echo Hello From Initialization Service****']
+      - name: init-mydb
+        image: busybox
+        command: ['sh', '-c', 'echo Hello from DB initialization Service####']
+        

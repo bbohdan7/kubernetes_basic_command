@@ -1,0 +1,36 @@
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: identidock
+spec:
+  replicas: 5
+  selector:
+   app: identidock
+  template:
+    metadata:
+      name: identidock
+      labels:
+        app: identidock
+    spec:
+      containers:
+        - name: identidock
+          image: identidock_identidock
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 9090
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 9090
+
+        - name: redis
+          image: redis
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 6379
+
+        - name: dnmonster
+          image: amouat/dnmonster
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8080

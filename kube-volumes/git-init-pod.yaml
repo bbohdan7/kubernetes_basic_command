@@ -1,0 +1,29 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: git-init
+  labels:
+    app: git-init
+spec:
+  containers:
+  - name: git-init
+    image: nginx
+    ports:
+    - name: "http-server"
+      protocol: TCP
+      containerPort: 80
+    volumeMounts:
+    - name: my-volume
+      mountPath: /usr/share/nginx/html
+  initContainers:
+  - name: git-container
+    image: alpine
+    command: ["/bin/sh", "-c"] 
+    args: ["apk add git", "git clone https://github.com/zbogdan7/wasapp /usr/share/nginx/html", "echo 'Hello, World!!!!!!!!'", "echo 'Another Hello World!!!'"]
+    volumeMounts:
+      - mountPath: /usr/share/nginx/html
+        name: my-volume
+  volumes:
+  - name: my-volume
+    persistentVolumeClaim:
+      claimName: my-volume
