@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wasapp-mysql
+  labels:
+    app: wasapp-mysql
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: wasapp-mysql
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: mysql
+        image: mysql:latest
+        ports:
+        - containerPort: 3306

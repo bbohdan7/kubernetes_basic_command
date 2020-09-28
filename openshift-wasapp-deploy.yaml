@@ -19,7 +19,7 @@ spec:
         emptyDir: {}
       containers:
         - name: wasapp
-          image: zbohdan7/wasapp
+          image: registry.ocp1.bank.gov.ua/bogdan/wasapp
           imagePullPolicy: Always
           ports:
           - containerPort: 9080
@@ -33,7 +33,11 @@ spec:
       - name: git-init # Step 1: Downloading (cloning) Java projects with Git 
         image: alpine
         command: ["/bin/sh", "-c"]
-        args: ["apk add git && git clone https://github.com/zbogdan7/wasapp /tmp/"]
+        args: ["apk add git 
+              ; git config --global http.proxy http://bohdan.zavialov:i15tuk0v@proxy.bank.gov.ua:80
+              ; git config --global https.proxy http://bohdan.zavialov:i15tuk0v@proxy.bank.gov.ua:80
+              ; git clone https://github.com/zbogdan7/wasapp /tmp/"
+              ]
         volumeMounts:
         - name: wasapp-volume
           mountPath: /tmp
